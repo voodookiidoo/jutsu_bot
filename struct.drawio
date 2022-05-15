@@ -1,1 +1,43 @@
-<mxfile host="app.diagrams.net" modified="2022-05-15T22:55:54.368Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.141 YaBrowser/22.3.3.889 Yowser/2.5 Safari/537.36" version="18.0.5" etag="vXncvPmzxans6meEFGA9" type="github"><diagram id="U3MrBjE8-kMof_1osqsS">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-05-15T23:04:30.088Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.141 YaBrowser/22.3.3.889 Yowser/2.5 Safari/537.36" etag="USObov2tSjHyTkkg31TR" version="18.0.5" type="github">
+  <diagram id="U3MrBjE8-kMof_1osqsS" name="Page-1">
+    <mxGraphModel dx="886" dy="523" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-2" value="menu/start" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;gradientColor=none;gradientDirection=east;fillColor=default;perimeterSpacing=3;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="160" y="30" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-3" value="Favorite jutsu" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-2">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-4" value="Jutsu history" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;strokeWidth=1;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-2">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-5" value="Explore Jutsu" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-2">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-11" value="Jutsu menu" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;gradientColor=none;gradientDirection=east;fillColor=default;perimeterSpacing=3;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="170" y="220" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-12" value="Jutsu styles" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-11">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-13" value="Random jutsu" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;strokeWidth=1;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-11">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c3NKIqUfqil0ogxzN9lb-5" target="c3NKIqUfqil0ogxzN9lb-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-16" value="%Jutsu style%" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;gradientColor=none;gradientDirection=east;fillColor=default;perimeterSpacing=3;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="360" y="220" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-18" value="Jutsu history" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;strokeWidth=1;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-16">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3NKIqUfqil0ogxzN9lb-19" value="Explore Jutsu" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="c3NKIqUfqil0ogxzN9lb-16">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
