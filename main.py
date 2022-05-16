@@ -1,7 +1,7 @@
 import json
 import requests
 from telebot import TeleBot
-from telebot.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from telebot.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
 
 with open('src/data.txt', 'r') as f:
 	TKN = f.read()
@@ -10,7 +10,7 @@ bot = TeleBot(TKN)
 
 @bot.message_handler(commands=['start', 'menu'])
 def start(msg: Message):
-	brd = InlineKeyboardMarkup(row_width=1, )
+	brd = InlineKeyboardMarkup(row_width=1)
 	his = InlineKeyboardButton(text='Jutsu history', callback_data='jutsu_history')
 	fav = InlineKeyboardButton(text='Favorite jutsu', callback_data='fav_jutsu')
 	new = InlineKeyboardButton(text='Learn new jutsu', callback_data='new_jutsu')
@@ -30,12 +30,15 @@ def helper(msg: Message):
 # TODO add the handler for favorite jutsu
 @bot.callback_query_handler(func=lambda x: x.data == 'fav_jutsu')
 def fav_jutsu_handler(callback: CallbackQuery):
-	bot.send_message(callback.message.chat.id, 'Here will be listed the favourite jutsu of user')
+	bot.edit_message_reply_markup(chat_id=callback.message.chat.id, message_id=callback.message.message_id, reply_markup=None)
+	bot.send_message(callback.from_user.id, 'Here will be listed the favourite jutsu of user')
+
 
 
 # TODO add the handler for jutsu menu
 @bot.callback_query_handler(func=lambda x: x.data == 'new_jutsu')
 def new_jutsu_handler(callback: CallbackQuery):
+	bot.edit_message_reply_markup(chat_id=callback.message.chat.id, message_id=callback.message.message_id, reply_markup=None)
 	bot.send_message(callback.message.chat.id, 'Here will be litsed the menu for all the jutsu to learn')
 
 
