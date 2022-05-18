@@ -7,6 +7,7 @@ from telebot import TeleBot
 from typing import List, Union
 from telebot.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
 from itertools import count
+import json
 
 j_template = r'https://jut.su{}'
 j_menu = r'https://jut.su/by-episodes/'
@@ -16,8 +17,15 @@ HEADER = {'User-Agent': 'User-Agent Mozilla/5.0 (compatible; Yandex...)'}
 
 class StylePage:
 	def __init__(self, link, name):
-		self.__link = j_template.format(link)
+		self.__link = j_template.format(link) if not link.startswith('https') else link
 		self.__name = name
+
+	def get_description(self):
+		page = requests.get(self.link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		res = soup.find(name='div', attrs={'id': 'ujbasecont'})
+		res = ''.join(filter(str.isprintable, res.text))
+		return res
 
 	@property
 	def link(self):
@@ -32,6 +40,12 @@ class StylePage:
 
 	def __repr__(self):
 		return self.__str__()
+
+	def __hash__(self):
+		return hash(self.link) + hash(self.name)
+
+	def __eq__(self, other):
+		return self.name == other.name and self.link == other.link
 
 
 class JutsuPage:
@@ -39,6 +53,13 @@ class JutsuPage:
 		self.__link = link
 		self.__name = name
 
+	def get_description(self):
+		page = requests.get(self.link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		res = soup.find(name='div', attrs={'class': 'underthevkvideo', 'itemprop':'description'})
+		res = ''.join(filter(str.isprintable, res.text))
+		return res
+
 	@property
 	def link(self):
 		return self.__link
@@ -52,6 +73,13 @@ class JutsuPage:
 
 	def __repr__(self):
 		return self.__str__()
+
+
+def get_all_style_pages() -> List[StylePage]:
+	with open('src/tech_headers.json', 'r') as file:
+		data = json.load(file)
+	total = [StylePage(x['link'], x['name']) for x in data['headers']]
+	return total
 
 
 def get_random_jutsu_page() -> JutsuPage:
@@ -95,7 +123,8 @@ def build_inline_from_list(bot: TeleBot, callback: CallbackQuery, pages: List[Un
 
 
 def main():
-	print(*get_all_styled_jutsu(StylePage('/lava/', 'Техники лавы')), sep='\n')
+	x = get_random_jutsu_page().get_description()
+	print(x)
 
 
 if __name__ == '__main__':
