@@ -1,3 +1,5 @@
+import typing
+
 from bs4.element import Tag
 import requests
 from requests.models import Response
@@ -12,7 +14,7 @@ import json
 j_template = r'https://jut.su{}'
 j_menu = r'https://jut.su/by-episodes/'
 j_tech_url = r'https://jut.su/technique/{}'
-HEADER = {'User-Agent': 'User-Agent Mozilla/5.0 (compatible; Yandex...)'}
+HEADER = {'User-Agent': 'User-Agent Mozilla/5.0 (compatible; Yandex...)'}  # USED FOR REQURESTS, ERROR 403 IF SKIPPED
 
 
 class StylePage:
@@ -53,12 +55,44 @@ class JutsuPage:
 		self.__link = link
 		self.__name = name
 
-	def get_description(self):
+	def get_description(self) -> str:
+		"""Parse the page by link, return the description as a string
+
+		:return: description of a jutsu
+		"""
 		page = requests.get(self.link, headers=HEADER)
 		soup = BeautifulSoup(page.text, 'html.parser')
-		res = soup.find(name='div', attrs={'class': 'underthevkvideo', 'itemprop':'description'})
+		res = soup.find(name='div', attrs={'class': 'underthevkvideo', 'itemprop': 'description'})
 		res = ''.join(filter(str.isprintable, res.text))
 		return res
+
+	def get_hand_seals(self) -> List[str]:
+		"""Parse the page by link, return lits of hand seals as strings
+
+		:return: hand seals as a list of strings
+		"""
+		page = requests.get(self.link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		res = soup.find(name='ul', attrs={'class': 'story_seals_b'})
+		if res is None:
+			return []
+		res = res.findAll(name='a')
+		res = list(map(lambda x: x.get('title'), res))
+		return res
+
+	def get_both(self) -> List[str]:
+		page = requests.get(self.link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		res = soup.find(name='div', attrs={'class': 'underthevkvideo', 'itemprop': 'description'})
+		res = ''.join(filter(str.isprintable, res.text))
+		result = [res]
+		seals = soup.find(name='ul', attrs={'class': 'story_seals_b'})
+		if seals is None:
+			return result
+		seals = seals.findAll(name='a')
+		seals = map(lambda x: x.get('title'), seals)
+		result.extend(seals)
+		return result
 
 	@property
 	def link(self):
@@ -97,6 +131,11 @@ def get_random_jutsu_page() -> JutsuPage:
 
 
 def get_styled_page_jutsu(resp: Response) -> List[JutsuPage]:
+	"""Get all JutsuPage objects withing a single GET response
+
+	:param resp: GET response object to parse JutsuPage objects
+	:return: lits of JutsuPage extracted from Response object
+	"""
 	soup = BeautifulSoup(resp.text, 'html.parser')
 	res = soup.findAll(name='div', attrs={'class': 'technicBlock'})
 	data = []
@@ -108,6 +147,11 @@ def get_styled_page_jutsu(resp: Response) -> List[JutsuPage]:
 
 
 def get_all_styled_jutsu(style: StylePage) -> List[JutsuPage]:
+	"""Makes requests and returns a list of all the jutsu of a certain style
+
+	:param style: StylePage object to request and parse requested pages
+	:return: list of JutsuPage objects that belong to a certain style
+	"""
 	page = requests.get(style.link, headers=HEADER)
 	data = get_styled_page_jutsu(page)
 	for page_index in count(2, 1):
@@ -118,13 +162,14 @@ def get_all_styled_jutsu(style: StylePage) -> List[JutsuPage]:
 	return data
 
 
-def build_inline_from_list(bot: TeleBot, callback: CallbackQuery, pages: List[Union[JutsuPage, StylePage]]):
-	pass
+def build_jutsu_data(bot: TeleBot, call: CallbackQuery, jutsu: JutsuPage) -> None:
+
 
 
 def main():
-	x = get_random_jutsu_page().get_description()
+	x = get_random_jutsu_page()
 	print(x)
+	print(x.get_both())
 
 
 if __name__ == '__main__':
