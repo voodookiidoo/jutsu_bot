@@ -22,6 +22,29 @@ class StylePage:
 		self.__link = j_template.format(link) if not link.startswith('https') else link
 		self.__name = name
 
+	@staticmethod
+	def from_link(link):
+		page = requests.get(link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		res = soup.find(name='h1', attrs={'class':'b-b-title'})
+		res = ''.join(filter(str.isprintable, res.text))
+		return StylePage(link, res)
+
+	def get_controllers(self):
+		page = requests.get(self.link, headers=HEADER)
+		soup = BeautifulSoup(page.text, 'html.parser')
+		both = soup.find(name='div', attrs={'id': 'navigation', 'class':'ignore-select'})
+		if both is None:
+			return None
+		refs = both.findAll('a')
+		result = {}
+		for value in refs:
+			if value.text == 'Назад':
+				result['prev'] = value.get('href')
+			if value.text == 'Далее':
+				result['next'] = value.get('href')
+		return result
+
 	def get_description(self):
 		page = requests.get(self.link, headers=HEADER)
 		soup = BeautifulSoup(page.text, 'html.parser')
@@ -163,14 +186,31 @@ def get_all_styled_jutsu(style: StylePage) -> List[JutsuPage]:
 
 
 def build_jutsu_data(bot: TeleBot, call: CallbackQuery, jutsu: JutsuPage) -> None:
+	pass
+
+def build_full_jutsu_json():
+	jutsu_id = 0
+	data = {}
+	style_lits = get_all_style_pages()
+	for style in style_lits:
+		jutsu_list = get_all_styled_jutsu(style)
+		for jutsu in jutsu_list:
+			data[jutsu_id] = {'name':jutsu.name, 'link':jutsu.link}
+			jutsu_id += 1
+	with open('src/jutsu_data.json', 'w') as file:
+		json.dump(data, file, indent=4)
 
 
+def build_reversed_json():
+	with open('src/jutsu_data.json', 'r') as file:
+		data = json.load(file)
+	new_data = {value["name"]: key for key, value in data.items()}
+	with (open('src/jutsu_names.json', 'w')) as file:
+		json.dump(new_data, file)
 
 def main():
-	x = get_random_jutsu_page()
-	print(x)
-	print(x.get_both())
-
+	page = StylePage.from_link('https://jut.su/lava/')
+	print(page.get_controllers())
 
 if __name__ == '__main__':
 	main()
